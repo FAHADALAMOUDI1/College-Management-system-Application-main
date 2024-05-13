@@ -4,10 +4,48 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import java.sql.*;
-public class StudentLoginPage extends javax.swing.JFrame {   
-    public StudentLoginPage() {
+
+
+    public class StudentLoginPage extends javax.swing.JFrame {
+
+        private static LoginStrategy loginStrategy;
+        
+        // Strategy
+        public StudentLoginPage(LoginStrategy loginStrategy) {
+        StudentLoginPage.loginStrategy = loginStrategy;
         initComponents();
-    }
+        }
+
+        interface LoginStrategy {
+            boolean authenticate(String username, String password);
+        }
+
+        class DatabaseLoginStrategy implements LoginStrategy {
+
+                @Override
+                public boolean authenticate(String username, String password) {
+                // Implement logic to connect to a database and verify credentials
+                // (This could involve querying a user table)
+                // ...
+                return true; // Replace with actual authentication logic
+                }
+            }
+            
+            // Example concrete strategy: LDAPLoginStrategy (if using LDAP)
+            class LDAPLoginStrategy implements LoginStrategy {
+            
+                @Override
+                public boolean authenticate(String username, String password) {
+                // Implement logic to connect to an LDAP server and verify credentials
+                // ...
+                return true; // Replace with actual authentication logic
+                }
+            }
+
+    
+    
+
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -201,9 +239,9 @@ public class StudentLoginPage extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
-          java.awt.EventQueue.invokeLater(new Runnable() {
+        java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StudentLoginPage().setVisible(true);
+                new StudentLoginPage(loginStrategy).setVisible(true); //change
             }
         }); }
     // Variables declaration - do not modify//GEN-BEGIN:variables
